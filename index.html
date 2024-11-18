@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HQZ - Raspadinha</title>
+    <link href="https://db.onlinewebfonts.com/c/28981378a4f4992d718e204c83d5bc66?family=Neometric-ExtraBold" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            background-color: #ffffff;
+            font-family: "Neometric-ExtraBold", sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 800px;
+            padding: 0;
+            margin: 0 auto;
+            user-select: none;
+            -webkit-user-select: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .main-container {
+            display: flex;
+            width: 800px;
+            height: 400px;
+            background: #ffffff;
+        }
+
+        .text-side {
+            background-color: #EDEFF0;
+            width: 400px;
+            height: 400px;
+            position: relative;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 20px;
+        }
+
+        .logo-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            width: 50px;
+            pointer-events: none;
+            -webkit-user-drag: none;
+        }
+
+        .text-content {
+            font-family: "Neometric-ExtraBold", sans-serif;
+            font-size: 48px;
+            line-height: 1;
+            letter-spacing: -0.02em;
+            pointer-events: none;
+            padding-left: 40px;
+            text-align: left;
+            width: 80%;
+            max-width: 250px;
+        }
+
+        .text-content div {
+            margin-bottom: 5px;
+        }
+
+        .text-content .pink {
+            color: #D61682;
+        }
+
+        .boa-sorte {
+            position: absolute;
+            bottom: 40px;
+            width: 100%;
+            color: #D61682;
+            font-family: "Neometric-ExtraBold", sans-serif;
+            font-size: 24px;
+            pointer-events: none;
+            text-align: center;
+            left: 0;
+        }
+
+        .scratch-side {
+            background-color: #D61682;
+            width: 400px;
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .prize-container {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #D9DBDC;
+            border-radius: 20px;
+        }
+
+        .prize-container img {
+            max-width: 75%;
+            max-height: 75%;
+            object-fit: contain;
+            pointer-events: none;
+        }
+
+        #scratchCard {
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: pointer;
+            border-radius: 20px;
+        }
+
+       
+        .text-side::after {
+            content: '';
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 80px;
+            background-color: #EDEFF0;
+            clip-path: polygon(0 0, 100% 50%, 0 100%);
+            z-index: 1;
+        }
+
+        .winner-message {
+            width: 800px;
+            background-color: #EDEFF0;
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+            display: none;
+            font-family: "Neometric-ExtraBold", sans-serif;
+        }
+
+        .winner-message h2 {
+            color: #D61682;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .winner-message p {
+            font-size: 24px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-container">
+            <div class="text-side">
+                <div class="logo-container">
+                    <img src="images/logo-hqz.png" alt="HQZ Logo" class="logo">
+                </div>
+                <div class="text-content">
+                    <div>comprou,</div>
+                    <div class="pink">raspou,</div>
+                    <div>ganhou.</div>
+                </div>
+                <div class="boa-sorte">boa sorte!</div>
+            </div>
+            <div class="scratch-side">
+                <div class="prize-container">
+                    <img id="prizeImage" src="" alt="Prêmio">
+                </div>
+                <canvas id="scratchCard" width="400" height="400"></canvas>
+            </div>
+        </div>
+        <div class="winner-message">
+            <h2>Parabéns!</h2>
+            <p id="prize-text"></p>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('scratchCard');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+
+        const produtos = [
+            {
+                nome: 'images/fibra.png',
+                peso: 50
+            },
+            {
+                nome: 'images/folha-de-mesa.png',
+                peso: 25
+            },
+            {
+                nome: 'images/oleo-de-cuticula.png',
+                peso: 15
+            },
+            {
+                nome: 'images/esmalte-hqz.png',
+                peso: 7
+            },
+            {
+                nome: 'images/ph.png',
+                peso: 3
+            }
+        ];
+
+        function createScratchCard() {
+            ctx.fillStyle = '#D61682';
+            ctx.fillRect(0, 0, 400, 400);
+
+            // Carregar e desenhar o diamante
+            const diamond = new Image();
+            diamond.onload = function() {
+                const diamondWidth = 350;
+                const diamondHeight = (diamond.height * diamondWidth) / diamond.width;
+                const x = (400 - diamondWidth) / 2 - 10;
+                const y = (400 - diamondHeight) / 2 - 10;
+                
+                ctx.drawImage(diamond, x, y, diamondWidth, diamondHeight);
+            };
+            diamond.src = 'images/diamante.png';
+        }
+
+        function getMousePos(e) {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            };
+        }
+
+        let scratchedPixels = 0;
+        let totalPixels = 400 * 400;
+        let confettiShown = false;
+        let gameCompleted = false;
+
+        function revealAll() {
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function showWinnerMessage(premio) {
+            const winnerMessage = document.querySelector('.winner-message');
+            const prizeText = document.getElementById('prize-text');
+            
+            const premioNomes = {
+                'fibra.png': 'Fibra de Unhas',
+                'folha-de-mesa.png': 'Folha de Mesa',
+                'oleo-de-cuticula.png': 'Caneta Óleo Hidratante',
+                'esmalte-hqz.png': 'Esmalte em Gel HQZ',
+                'ph.png': 'Ph Desidratador HQZ'
+            };
+
+            const nomeArquivo = premio.split('/').pop();
+            const nomePremio = premioNomes[nomeArquivo];
+            
+            prizeText.textContent = `Você ganhou: ${nomePremio}`;
+            
+            winnerMessage.style.display = 'block';
+            winnerMessage.style.opacity = '0';
+            winnerMessage.style.transform = 'translateY(20px)';
+            winnerMessage.style.transition = 'all 0.5s ease';
+            
+            setTimeout(() => {
+                winnerMessage.style.opacity = '1';
+                winnerMessage.style.transform = 'translateY(0)';
+            }, 100);
+        }
+
+        function scratch(e) {
+            if (gameCompleted) return;
+
+            const pos = getMousePos(e);
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.beginPath();
+            ctx.arc(pos.x, pos.y, 20, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Calcula área raspada
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            scratchedPixels = 0;
+            for (let i = 3; i < imageData.data.length; i += 4) {
+                if (imageData.data[i] === 0) {
+                    scratchedPixels++;
+                }
+            }
+
+            // Verifica se atingiu 50% de área raspada
+            const scratchedPercentage = (scratchedPixels / totalPixels) * 100;
+            if (scratchedPercentage > 50 && !confettiShown) {
+                gameCompleted = true;
+                confettiShown = true;
+                
+                // Revela toda a área
+                revealAll();
+                
+                // Mostra a mensagem de parabéns
+                const premioAtual = document.getElementById('prizeImage').src;
+                showWinnerMessage(premioAtual);
+                
+                // Dispara o confetti
+                triggerConfetti();
+            }
+        }
+
+        function triggerConfetti() {
+            // Configurações base do confetti
+            const defaults = { 
+                startVelocity: 25,
+                spread: 360,
+                ticks: 300,
+                zIndex: 0,
+                shapes: ['square', 'circle'],
+                colors: ['#D61682', '#ffffff', '#FFD700', '#00ff00', '#ff0000']
+            };
+
+            // Dispara vários canhões simultaneamente
+            // Centro
+            confetti({
+                ...defaults,
+                particleCount: 80,
+                origin: { x: 0.5, y: 0.6 }
+            });
+
+            // Esquerda
+            confetti({
+                ...defaults,
+                particleCount: 50,
+                origin: { x: 0.2, y: 0.6 }
+            });
+
+            // Direita
+            confetti({
+                ...defaults,
+                particleCount: 50,
+                origin: { x: 0.8, y: 0.6 }
+            });
+
+            // Chuva de confetti do topo
+            confetti({
+                ...defaults,
+                particleCount: 60,
+                origin: { x: 0.3, y: 0.1 },
+                gravity: 0.8,
+                scalar: 1.2
+            });
+
+            confetti({
+                ...defaults,
+                particleCount: 60,
+                origin: { x: 0.7, y: 0.1 },
+                gravity: 0.8,
+                scalar: 1.2
+            });
+
+            // Explosão final com cores da marca
+            setTimeout(() => {
+                confetti({
+                    ...defaults,
+                    particleCount: 100,
+                    spread: 160,
+                    origin: { x: 0.5, y: 0.5 },
+                    colors: ['#D61682', '#ffffff', '#FFD700']
+                });
+            }, 100);
+        }
+
+        canvas.addEventListener('mousedown', (e) => {
+            isDrawing = true;
+            scratch(e);
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if(!isDrawing) return;
+            scratch(e);
+        });
+
+        canvas.addEventListener('mouseup', () => isDrawing = false);
+        canvas.addEventListener('mouseleave', () => isDrawing = false);
+
+        function sortearProduto() {
+            const pesoTotal = produtos.reduce((soma, produto) => soma + produto.peso, 0);
+            let numeroSorteado = Math.random() * pesoTotal;
+            
+            for (let produto of produtos) {
+                numeroSorteado -= produto.peso;
+                if (numeroSorteado <= 0) {
+                    return produto.nome;
+                }
+            }
+            
+            return produtos[0].nome;
+        }
+
+        // Inicialização
+        document.getElementById('prizeImage').src = sortearProduto();
+        createScratchCard();
+    </script>
+</body>
+</html> 
