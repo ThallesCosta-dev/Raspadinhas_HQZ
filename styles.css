@@ -1,9 +1,15 @@
 body {
+<<<<<<< HEAD
     margin: 0;
     padding: 0;
     background-color: #ffffff;
     font-family: "Neometric-ExtraBold", sans-serif;
     height: 100vh;
+=======
+    background-color: #ffffff;
+    font-family: "Neometric-ExtraBold", sans-serif;
+    min-height: 100vh;
+>>>>>>> 42ca40b8a0915ca9795edf171635b57e40779e5c
     display: flex;
     align-items: center;
     justify-content: center;
@@ -11,28 +17,56 @@ body {
 
 .container {
     width: 100%;
+<<<<<<< HEAD
     max-width: 1200px;
+=======
+    max-width: 800px;
+>>>>>>> 42ca40b8a0915ca9795edf171635b57e40779e5c
     padding: 20px;
     margin: 0 auto;
     user-select: none;
     -webkit-user-select: none;
+<<<<<<< HEAD
+=======
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+>>>>>>> 42ca40b8a0915ca9795edf171635b57e40779e5c
 }
 
 .main-container {
     display: flex;
+<<<<<<< HEAD
     justify-content: space-between;
     align-items: center;
     gap: 40px;
+=======
+    width: 100%;
+    gap: 20px;
+    align-items: center;
+>>>>>>> 42ca40b8a0915ca9795edf171635b57e40779e5c
 }
 
 .text-side {
     flex: 1;
+<<<<<<< HEAD
     padding-left: 40px;
 }
 
 .logo-container {
     width: 250px;
     margin-bottom: 40px;
+=======
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.logo-container {
+    width: 100%;
+    max-width: 200px;
+>>>>>>> 42ca40b8a0915ca9795edf171635b57e40779e5c
 }
 
 .logo {
@@ -41,10 +75,16 @@ body {
 }
 
 .text-content {
+<<<<<<< HEAD
     font-size: 64px;
     line-height: 1.1;
     text-transform: uppercase;
     margin-bottom: 20px;
+=======
+    font-size: 48px;
+    line-height: 1.2;
+    text-transform: uppercase;
+>>>>>>> 42ca40b8a0915ca9795edf171635b57e40779e5c
 }
 
 .pink {
@@ -52,15 +92,26 @@ body {
 }
 
 .boa-sorte {
+<<<<<<< HEAD
     font-size: 32px;
+=======
+    font-size: 24px;
+>>>>>>> 42ca40b8a0915ca9795edf171635b57e40779e5c
     text-transform: uppercase;
 }
 
 .scratch-side {
+<<<<<<< HEAD
     position: relative;
     width: 500px;
     height: 500px;
     margin-right: 40px;
+=======
+    flex: 1;
+    position: relative;
+    width: 400px;
+    height: 400px;
+>>>>>>> 42ca40b8a0915ca9795edf171635b57e40779e5c
 }
 
 .prize-container {
@@ -85,8 +136,11 @@ body {
     position: absolute;
     top: 0;
     left: 0;
+<<<<<<< HEAD
     width: 500px;
     height: 500px;
+=======
+>>>>>>> 42ca40b8a0915ca9795edf171635b57e40779e5c
     z-index: 2;
     touch-action: none;
 }
@@ -99,11 +153,16 @@ body {
 
 .winner-message h2 {
     color: #FF1493;
+<<<<<<< HEAD
     font-size: 36px;
+=======
+    font-size: 32px;
+>>>>>>> 42ca40b8a0915ca9795edf171635b57e40779e5c
     margin-bottom: 10px;
 }
 
 .winner-message p {
+<<<<<<< HEAD
     font-size: 28px;
 }
 
@@ -111,10 +170,19 @@ body {
     .main-container {
         flex-direction: column;
         gap: 20px;
+=======
+    font-size: 24px;
+}
+
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+>>>>>>> 42ca40b8a0915ca9795edf171635b57e40779e5c
     }
 
     .text-side {
         text-align: center;
+<<<<<<< HEAD
         padding-left: 0;
     }
 
@@ -144,6 +212,11 @@ body {
 }
 
 @media (max-width: 480px) {
+=======
+        align-items: center;
+    }
+
+>>>>>>> 42ca40b8a0915ca9795edf171635b57e40779e5c
     .text-content {
         font-size: 36px;
     }
