@@ -1,0 +1,160 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    font-family: "Neometric-ExtraBold", sans-serif;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    padding: 20px;
+    margin: 0 auto;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.main-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+}
+
+.text-side {
+    flex: 1;
+    padding-left: 40px;
+}
+
+.logo-container {
+    width: 250px;
+    margin-bottom: 40px;
+}
+
+.logo {
+    width: 100%;
+    height: auto;
+}
+
+.text-content {
+    font-size: 64px;
+    line-height: 1.1;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.pink {
+    color: #FF1493;
+}
+
+.boa-sorte {
+    font-size: 32px;
+    text-transform: uppercase;
+}
+
+.scratch-side {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    margin-right: 40px;
+}
+
+.prize-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+#prizeImage {
+    max-width: 80%;
+    max-height: 80%;
+    object-fit: contain;
+}
+
+#scratchCard {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 500px;
+    height: 500px;
+    z-index: 2;
+    touch-action: none;
+}
+
+.winner-message {
+    display: none;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.winner-message h2 {
+    color: #FF1493;
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.winner-message p {
+    font-size: 28px;
+}
+
+@media (max-width: 1024px) {
+    .main-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .text-side {
+        text-align: center;
+        padding-left: 0;
+    }
+
+    .logo-container {
+        width: 200px;
+        margin: 0 auto 30px;
+    }
+
+    .text-content {
+        font-size: 48px;
+    }
+
+    .boa-sorte {
+        font-size: 24px;
+    }
+
+    .scratch-side {
+        width: 400px;
+        height: 400px;
+        margin-right: 0;
+    }
+
+    #scratchCard {
+        width: 400px;
+        height: 400px;
+    }
+}
+
+@media (max-width: 480px) {
+    .text-content {
+        font-size: 36px;
+    }
+
+    .scratch-side {
+        width: 300px;
+        height: 300px;
+    }
+
+    #scratchCard {
+        width: 300px;
+        height: 300px;
+    }
+}

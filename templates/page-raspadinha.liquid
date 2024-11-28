@@ -1,0 +1,42 @@
+{% raw %}
+{% extends 'layout' %}
+
+{% block title %}HQZ - Raspadinha{% endblock %}
+
+{% block head %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="https://db.onlinewebfonts.com/c/28981378a4f4992d718e204c83d5bc66?family=Neometric-ExtraBold" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="main-container">
+            <div class="text-side">
+                <div class="logo-container">
+                    <img src="{{ asset('img/logo-hqz.png') }}" alt="HQZ Logo" class="logo">
+                </div>
+                <div class="text-content">
+                    <div>comprou,</div>
+                    <div class="pink">raspou,</div>
+                    <div>ganhou.</div>
+                </div>
+                <div class="boa-sorte">boa sorte!</div>
+            </div>
+            <div class="scratch-side">
+                <div class="prize-container">
+                    <img id="prizeImage" src="" alt="Prêmio">
+                </div>
+                <canvas id="scratchCard" width="400" height="400"></canvas>
+            </div>
+        </div>
+        <div class="winner-message">
+            <h2>Parabéns!</h2>
+            <p id="prize-text"></p>
+        </div>
+    </div>
+
+    {% element 'raspadinha/styles' %}
+    {% element 'raspadinha/scripts' %}
+{% endblock %}
+{% endraw %}
